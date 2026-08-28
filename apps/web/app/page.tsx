@@ -36,7 +36,9 @@ const decisioniIniziali: Decisione[] = [
 
 export default function Home() {
   const [decisioni, setDecisioni] = useState(decisioniIniziali);
-
+const [nuovoTitolo, setNuovoTitolo] = useState("");
+const [nuovaPriorita, setNuovaPriorita] = useState<"ALTA" | "MEDIA" | "BASSA">("MEDIA");
+const [mostraForm, setMostraForm] = useState(false);
   const daValutare = decisioni.filter(
     (decisione) => decisione.stato === "DA VALUTARE"
   ).length;
@@ -50,7 +52,22 @@ export default function Home() {
       )
     );
   }
+function creaDecisione() {
+  if (!nuovoTitolo.trim()) return;
 
+  const nuovaDecisione: Decisione = {
+    id: Date.now(),
+    titolo: nuovoTitolo.trim(),
+    cantiere: "Tropical Retreat",
+    priorita: nuovaPriorita,
+    stato: "DA VALUTARE",
+  };
+
+  setDecisioni((correnti) => [...correnti, nuovaDecisione]);
+  setNuovoTitolo("");
+  setNuovaPriorita("MEDIA");
+  setMostraForm(false);
+}
   return (
     <main
       style={{
@@ -94,9 +111,33 @@ export default function Home() {
 
       <section style={{ marginTop: "40px" }}>
         <h2>Decisioni operative</h2>
+       <button onClick={() => setMostraForm(true)}>Nuova decisione</button>
 
+{mostraForm && (
+  <div style={{ ...cardStyle, marginBottom: "16px" }}>
+    <input
+      type="text"
+      placeholder="Titolo decisione"
+      value={nuovoTitolo}
+      onChange={(e) => setNuovoTitolo(e.target.value)}
+    />
+
+    <select
+      value={nuovaPriorita}
+      onChange={(e) =>
+        setNuovaPriorita(e.target.value as "ALTA" | "MEDIA" | "BASSA")
+      }
+    >
+      <option value="ALTA">ALTA</option>
+      <option value="MEDIA">MEDIA</option>
+      <option value="BASSA">BASSA</option>
+    </select>
+
+    <button onClick={creaDecisione}>Crea decisione</button>
+  </div>
+)}
         <div style={{ display: "grid", gap: "12px" }}>
-          {decisioni.map((decisione) => (
+          {decisioni.map((decisione) => 
             <div
               key={decisione.id}
               style={{
@@ -134,7 +175,8 @@ export default function Home() {
                 </button>
               )}
             </div>
-          ))}
+            )}      
+          
         </div>
       </section>
 
@@ -145,7 +187,7 @@ export default function Home() {
         </p>
       </section>
     </main>
-  );
+  ) ;
 }
 
 const cardStyle = {
