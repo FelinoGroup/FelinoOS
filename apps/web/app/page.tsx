@@ -189,10 +189,9 @@ function creaDecisione() {
     </main>
   ) ;
 }
-
 const cardStyle = {
-  background: "#1f2937" ,
+  background: "#1f2937",
   padding: "20px",
   borderRadius: "12px",
   border: "1px solid #334155",
-}
+};

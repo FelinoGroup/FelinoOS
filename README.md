@@ -18,4 +18,4 @@ Felino OS è la piattaforma unica per la gestione di:
 
 Versione: Alpha 0.1
 
-Repository ufficiale della Felino Group.
+Repository ufficiale della Felino Group.$
